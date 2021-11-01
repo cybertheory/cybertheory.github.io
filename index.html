@@ -34,7 +34,7 @@
 
 //        var geometry = new THREE.BoxGeometry(1, 1, 1);
                
-        var geometry = new THREE.SphereGeometry(1, 25, 25);
+        var geometry = new THREE.SphereGeometry(2, 25, 25);
         
 //        var material = new THREE.MeshLambertMaterial({ map: texture, overdraw: 0.5 } );
         var material = new THREE.MeshLambertMaterial({ map: texture } );
@@ -47,11 +47,16 @@
             
         });
         scene.add(globe);
-        
-        var light = new THREE.PointLight(0xFFFFFF, 1, 500);
-        light.position.set(10,50,100)
-        scene.add(light);
-         
+        // light source
+          const color = 0xffffff, intensity = 1;
+          const light = new THREE.DirectionalLight(color, intensity);
+          light.position.set(-1, 2, 4);
+          scene.add(light);
+//        
+//        var light = new THREE.PointLight(0xFFFFFF, 1, 500);
+//        light.position.set(10,50,100)
+//        scene.add(light);
+//         
         
         var render = function(){
             requestAnimationFrame(render);
