@@ -4,16 +4,22 @@
 </head>
 <body>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/102/three.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.2/TweenMax.min.js"></script>
-    <script>
+<!--    <script src="https://cdn.jsdelivr.net/npm/three@0.121.1/examples/jsm/controls/OrbitControls.js"></script>-->
+    <script type="module">
+//        import { OrbitControls } from "https://cdn.jsdelivr.net/npm/three@0.121.1/examples/jsm/controls/OrbitControls.js"
         var scene = new THREE.Scene();
         var globe = new THREE.Group();
+
         
         var camera = new THREE.PerspectiveCamera(75,window.innerWidth/window.innerHeight,0.1,1000);
         camera.position.z = 5 ;
         
         var renderer = new THREE.WebGLRenderer({antialias: true});
         renderer.setClearColor('#000000');
+        
+       
         
         renderer.setSize(window.innerWidth, window.innerHeight);
         
@@ -46,27 +52,105 @@
         globe.add(mesh);
             
         });
+    
+//        controls.autoRotate = true
         scene.add(globe);
         // light source
           const color = 0xffffff, intensity = 1;
-          const light = new THREE.DirectionalLight(color, intensity);
-          light.position.set(-1, 2, 4);
+//          const light = new THREE.DirectionalLight(color, intensity);
+//          light.position.set(-1, 2, 4);
+          const light = new THREE.AmbientLight( 0xFFFFFF );
           scene.add(light);
 //        
 //        var light = new THREE.PointLight(0xFFFFFF, 1, 500);
 //        light.position.set(10,50,100)
 //        scene.add(light);
-//         
+        var goalLoop = false;
+        var homeLoop = false;
+        var aboutLoop = false;
+        var projectLoop = false;
+        var pressLoop = false;
+        var goals = document.getElementById("goals");
         
+         const createMoveAnimation = ({ mesh, startPosition, endPosition }) => {
+              mesh.userData.mixer = new AnimationMixer(mesh);
+              let track = new VectorKeyframeTrack(
+                '.position',
+                [0, 1],
+                [
+                  startPosition.x,
+                  startPosition.y,
+                  startPosition.z,
+                  endPosition.x,
+                  endPosition.y,
+                  endPosition.z,
+                ]
+              );
+              const animationClip = new AnimationClip(null, 5, [track]);
+              const animationAction = mesh.userData.mixer.clipAction(animationClip);
+              animationAction.setLoop(LoopOnce);
+              animationAction.play();
+              mesh.userData.clock = new Clock();
+              this.animationsObjects.push(mesh);
+            };
+        
+        goals.addEventListener('click', function(){
+             createMoveAnimation({mesh: globe, startPosition: globe.position, endPosition: new THREE.Vector3(-5,-1,0)});
+//               goalsLoop = true;
+        });
+        var press = document.getElementById("press");
+        goals.addEventListener('click', function(){
+            pressLoop = true;
+        });
+         var about = document.getElementById("about");
+        goals.addEventListener('click', function(){
+            aboutLoop = true;
+        });
+         var home = document.getElementById("home");
+        goals.addEventListener('click', function(){
+            homeLoop = true;
+        });
+         var projects = document.getElementById("projects");
+        goals.addEventListener('click', function(){
+            projectLoop = true;
+        });
+        
+       
+//        console.log(globe.position);
         var render = function(){
             requestAnimationFrame(render);
-            
-            globe.rotation.y +=0.01
+            //if goalanimation is triggered find direction to goal point and animate to that pointx``
+//           
+//            if(goalLoop && Math.abs(globe.position.distanceTo(new THREE.Vector3(-5, -1, 0)))>2){
+//                 globe.translateOnAxis((new THREE.Vector3(0,0,0)).subVectors(new THREE.Vector3(-5,1,0), globe.position).normalize(), 0.1);
+//            }
+//            else{
+//                goalLoop = false;
+//            }
+//            
+//            if(homeLoop && Math.abs(globe.position.distanceTo(new THREE.Vector3(0, 0, 0)))>2){
+//                globe.translateOnAxis((new THREE.Vector3(0,0,0)).subVectors(new THREE.Vector3(0,0,0), globe.position).normalize(), 0.1);
+//            }
+//            else{
+//                homeLoop = false;
+//            }
+//            controls.update();
+            globe.rotation.y +=0.005
             renderer.render(scene, camera);
             
         }
+//      controls.addEventListener( 'change', render );
       render();
     
     </script>
+    
+<ul class="topnav ui">W
+  <li ><a id="press">Press</a></li>
+  <li ><a id="about">About</a></li>
+  <li><a id="home" >Home</a></li>
+  <li><a id="goals">Goals</a></li>
+  <li ><a id="projects" >Projects</a></li>
+</ul>
+    
 </body>
 </html>

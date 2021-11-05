@@ -6,3 +6,60 @@ body {
 canvas { 
     display: block;
 }
+
+.ui {
+  position: absolute;
+    overflow-y: hidden; 
+    overflow-x: hidden;
+}
+
+ul.topnav {
+   overflow-y: hidden; 
+    overflow-x: hidden;
+  list-style-type: none;
+  justify-content: space-around;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #000000;
+  font-family: arial;
+  width: 100%;
+  position: static;
+  display: flex;
+  top: 0;
+}
+
+ul.topnav li {
+float: center;
+transition: top ease 0.5s;}
+
+ul.topnav li a {
+  display: inline-block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  float: left;
+  font-size: 17px;
+  transition: top ease 0.5s;
+}
+
+ul.topnav li a:hover {
+	background-color: #FFFFFF;
+    color: black;
+    top: 40px;
+}
+ul.topnav li a.active {
+    background-color: #FFFFFF;
+    color: black;
+	position: sticky;
+    top: 40px;
+}
+@media screen and (max-width: 720px) {
+  ul.topnav li{
+	  width: 100%;
+  }
+  ul.topnav a{
+	  width: 100%;
+  }
+}
